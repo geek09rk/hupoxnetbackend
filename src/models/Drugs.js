@@ -16,3 +16,4 @@ const DrugsHuman = resultsdb.model('drugs_humans', DrugSchema)
 module.exports ={
     'human':DrugsHuman,
 }
+
