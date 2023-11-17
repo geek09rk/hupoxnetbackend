@@ -4,17 +4,18 @@ const path = require('path');
 const getPPI = (method, hspecies, pspecies,identity, coverage, evalue, pi, pc, pe, intdb,domdb, genes, idt)=>{
 let output;
 let getS;
-console.log("hpinterolog.py", "--method", method, "--blastdb", "wheatblast", "--ppidb", "ppidb", "--host_table", hspecies, "--pathogen_table", pspecies, "--host_identity", parseInt(identity), "--host_coverage", parseInt(coverage) ,"--host_evalue", parseFloat(evalue), "--pathogen_identity", parseInt(pi) ,"--pathogen_coverage", parseInt(pc) ,"--pathogen_evalue", parseFloat(pe) ,"--ppitables", intdb, '--id', idt, '--genes', genes)
+// console.log("hpinterolog.py", "--method", method, "--blastdb", "wheatblast", "--ppidb", "ppidb", "--host_table", hspecies, "--pathogen_table", pspecies, "--host_identity", parseInt(identity), "--host_coverage", parseInt(coverage) ,"--host_evalue", parseFloat(evalue), "--pathogen_identity", parseInt(pi) ,"--pathogen_coverage", parseInt(pc) ,"--pathogen_evalue", parseFloat(pe) ,"--ppitables", intdb, '--id', idt, '--genes', genes)
 // /opt/web/wheatbackend/src/introlog/
+// /home/rkataria/Desktop/hupoxnet/hupoxnet/backend/src/introlog
 if (genes.length >0){
-    getS = spawn('python3', ["/home/rkataria/Desktop/hupoxnet/hupoxnet/backend/src/introlog/hpinterolog.py", "--method", method, "--blastdb", "wheatblast", "--ppidb", "ppidb", "--host_table", hspecies, "--pathogen_table", pspecies, "--host_identity", parseInt(identity), "--host_coverage", parseInt(coverage) ,"--host_evalue", parseFloat(evalue), "--pathogen_identity", parseInt(pi) ,"--pathogen_coverage", parseInt(pc) ,"--pathogen_evalue", parseFloat(pe) ,"--ppitables", intdb, '--domdb', domdb, '--id', idt, '--genes', genes]);
+    getS = spawn('/opt/miniconda3/envs/ml-gpu/bin/python3', ["/opt/web/wheatbackend/src/introlog/hpinterolog.py", "--method", method, "--blastdb", "wheatblast", "--ppidb", "ppidb", "--host_table", hspecies, "--pathogen_table", pspecies, "--host_identity", parseInt(identity), "--host_coverage", parseInt(coverage) ,"--host_evalue", parseFloat(evalue), "--pathogen_identity", parseInt(pi) ,"--pathogen_coverage", parseInt(pc) ,"--pathogen_evalue", parseFloat(pe) ,"--ppitables", intdb, '--domdb', domdb, '--id', idt, '--genes', genes]);
 
 // /opt/miniconda3/envs/mlgpu/bin/
 // /opt/web/kbunt/wheatbackend
 
 }
 else{
-getS = spawn('python3', ["/home/rkataria/Desktop/hupoxnet/hupoxnet/backend/src/introlog/hpinterolog.py", "--method", method, "--blastdb", "wheatblast", "--ppidb", "ppidb", "--host_table", hspecies, "--pathogen_table", pspecies, "--host_identity", parseInt(identity), "--host_coverage", parseInt(coverage) ,"--host_evalue", parseFloat(evalue), "--pathogen_identity", parseInt(pi) ,"--pathogen_coverage", parseInt(pc) ,"--pathogen_evalue", parseFloat(pe) ,"--ppitables", intdb,  '--domdb', domdb,]);
+getS = spawn('/opt/miniconda3/envs/ml-gpu/bin/python3', ["/opt/web/wheatbackend/src/introlog/hpinterolog.py", "--method", method, "--blastdb", "wheatblast", "--ppidb", "ppidb", "--host_table", hspecies, "--pathogen_table", pspecies, "--host_identity", parseInt(identity), "--host_coverage", parseInt(coverage) ,"--host_evalue", parseFloat(evalue), "--pathogen_identity", parseInt(pi) ,"--pathogen_coverage", parseInt(pc) ,"--pathogen_evalue", parseFloat(pe) ,"--ppitables", intdb,  '--domdb', domdb,]);
 }
 
 // /opt/miniconda3/envs/mlgpu/bin/
