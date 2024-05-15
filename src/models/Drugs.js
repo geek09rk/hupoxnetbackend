@@ -7,6 +7,9 @@ const DrugSchema = new mongoose.Schema({
     'common_name': {type:String},
     'gene_name': {type:String},
     'genbank_id': {type:String},
+    'ChEMBLID': {type:String},
+    'ChEMBL_Name': {type:String},
+    'ProteinType': {type:String},
     
 });
 
