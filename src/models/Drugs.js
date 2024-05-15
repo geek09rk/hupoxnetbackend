@@ -10,7 +10,6 @@ const DrugSchema = new mongoose.Schema({
     'ChEMBLID': {type:String},
     'ChEMBL_Name': {type:String},
     'ProteinType': {type:String},
-    
 });
 
 const resultsdb = mongoose.connection.useDb("hupoxnet")
