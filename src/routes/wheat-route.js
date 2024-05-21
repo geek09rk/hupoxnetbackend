@@ -377,56 +377,82 @@ router.route('/drugs/').get(async(req, res) => {
 })
 
 
-// router.route('/tf/').get(async(req, res) => {
 
-//   let {species, page, size} = req.query
-//     if(!page){
-//         page = 1
-//       }
-//      if (page){
-//        page = parseInt(page) + 1
-//      }
-//       if (!size){
-//         size = 10
-//       }
+router.route('/annotation/').get(async(req, res) => {
 
-//       const limit = parseInt(size)
+  try {
+    console.log(req.query);
 
-//       const skip = (page-1) * size;
+    // let species = 'human'
+    let {species, gene} = req.query
 
-//       let transcription_results = await TF[species].find().limit(limit).skip(skip).exec()
-//       let total = await TF[species].count()
+    let go_results = await GO[species].find({'gene':gene})
+    let kegg_results = await KEGG[species].find({'gene':gene})
+    let interpro_results = await Interpro[species].find({'gene':gene})
+    let local_results = await Local[species].find({'gene':gene})
+    let drugs_results = await Drugs[species].find({'protein_id':gene})
 
-//       res.json({'data':transcription_results, 'total':total})
+    console.log(go_results)
 
-// })
+    // Filter out duplicate JSON objects
+    hgo_results = filterDuplicates(go_results);
+    hkegg_results = filterDuplicates(kegg_results);
+    hinterpro_results = filterDuplicates(interpro_results);
+    hlocal_results = filterDuplicates(local_results);
+    hdrugs_results = filterDuplicates(drugs_results);
 
-// router.route('/effector/').get(async(req, res) => {
+    res.json({
+      'hgo': hgo_results,
+      'hkegg': hkegg_results,
+      'hinter': hinterpro_results,
+      'hlocal': hlocal_results,
+      'hdrugs': hdrugs_results,
+    });
+  } catch (error) {
+    // Handle errors
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+  
+})
 
-//   let {species, page, size} = req.query
-//     if(!page){
-//         page = 1
-//       }
-//      if (page){
-//        page = parseInt(page) + 1
-//      }
-//       if (!size){
-//         size = 10
-//       }
 
-//       let query = {
-//         'type': species
-//       }
 
-//       const limit = parseInt(size)
+function areObjectsEqual(obj1, obj2) {
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
 
-//       const skip = (page-1) * size;
+  if (keys1.length !== keys2.length) {
+      return false;
+  }
 
-//       let effector_results = await Effector['tindica'].find(query).limit(limit).skip(skip).exec()
-//       let total = await Effector['tindica'].count(query)
+  for (const key of keys1) {
+      if (obj1[key] !== obj2[key]) {
+          return false;
+      }
+  }
 
-//       res.json({'data':effector_results, 'total':total})
+  return true;
+}
 
-// })
+
+function filterDuplicates(results) {
+  const uniqueResults = [];
+
+  for (const result of results) {
+      let isDuplicate = false;
+      for (const uniqueResult of uniqueResults) {
+          if (areObjectsEqual(result, uniqueResult)) {
+              isDuplicate = true;
+              break;
+          }
+      }
+      if (!isDuplicate) {
+          uniqueResults.push(result);
+      }
+  }
+
+  return uniqueResults;
+}
 
 module.exports = router;
